@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/code  # Монтирование локального каталога
+    expose:
+      - "8000"  # Указание порта, открытого для связи с Nginx
+    depends_on:
+      - db  # Предполагая, что у вас есть база данных
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./backend/static:/app/static  # Монтируем статические файлы
+      - ./backend/media:/app/media  # Монтируем медиа файлы
+    ports:
+      - "80:80"
+    depends_on:
+      - backend  # Обеспечиваем порядок запуска
+
+  db:
+    image: postgres:latest  # Пример базы данных, можете заменить на свою
+    environment:
+      POSTGRES_DB: Kitty_db
+      POSTGRES_USER: rita
+      POSTGRES_PASSWORD: Zaq21412
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:
