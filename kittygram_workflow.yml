@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -21,7 +21,7 @@ jobs:
         run: |
           cd backend
           pip install -r requirements.txt
-          
+
       - name: Run tests
         run: |
           cd backend
@@ -33,7 +33,7 @@ jobs:
           docker build -t username/kittygram_frontend ./frontend
           docker push username/kittygram_backend
           docker push username/kittygram_frontend
-          
+
       - name: Deploy to server
         run: |
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} "cd ~/kittygram && docker-compose down && git pull && docker-compose up -d --build"
