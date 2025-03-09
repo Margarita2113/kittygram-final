@@ -1,36 +1,57 @@
-version: '3.8'
+# Файл docker-compose.yml
 
-services:
-  backend:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    volumes:
-      - ./backend:/code  # Монтирование локального каталога
-    expose:
-      - "8000"  # Указание порта, открытого для связи с Nginx
-    depends_on:
-      - db  # Предполагая, что у вас есть база данных
+# Версия docker-compose:
+version: '3'
 
-  nginx:
-    image: nginx:latest
-    volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
-      - ./backend/static:/app/static  # Монтируем статические файлы
-      - ./backend/media:/app/media  # Монтируем медиа файлы
-    ports:
-      - "80:80"
-    depends_on:
-      - backend  # Обеспечиваем порядок запуска
-
-  db:
-    image: postgres:latest  # Пример базы данных, можете заменить на свою
-    environment:
-      POSTGRES_DB: Kitty_db
-      POSTGRES_USER: rita
-      POSTGRES_PASSWORD: Zaq21412
-    volumes:
-      - db_data:/var/lib/postgresql/data
-
+# Перечень volume:
 volumes:
+  pg_data:
+  db_data:
+
+# Перечень контейнеров:
+services:
+  # Контейнер с базой данных
+  postgres:
+    image: postgres:13.10      # Версия образа PostgreSQL
+    env_file: .env             # Файл с переменными окружения
+    volumes:
+      - pg_data:/var/lib/postgresql/data  
+  
+  # Контейнер с бэкендом
+  backend:
+    build: ./backend/          # Путь к Dockerfile для бэкенда
+    env_file: .env             # Файл с переменными окружения
+    depends_on:
+      - postgres                # Зависимость от контейнера postgres
+
+  # Контейнер с фронтендом
+  frontend:
+    build: ./frontend/         # Путь к Dockerfile для фронтенда
+    env_file: .env             # Файл с переменными окружения
+
+  # Контейнер с Nginx
+  nginx:
+    image: nginx:latest        # Последняя версия образа Nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf  # Конфигурация Nginx
+      - ./backend/static:/app/static                   # Статические файлы
+      - ./backend/media:/app/media                     # Медиа файлы
+    ports:
+      - "80:80"                # Прокси для порта 80
+    depends_on:
+      - backend                 # Обеспечиваем порядок запуска
+
+  # Второй контейнер с базой данных
+  db:
+    image: postgres:latest     # Образ для базы данных
+    environment:
+      POSTGRES_DB: Kitty_db    # Имя базы данных
+      POSTGRES_USER: rita       # Имя пользователя
+      POSTGRES_PASSWORD: Zaq21412 # Пароль пользователя
+    volumes:
+      - db_data:/var/lib/postgresql/data  # Подключаем volume для данных базы данных
+
+# Определение volume
+volumes:
+  pg_data:
   db_data:
