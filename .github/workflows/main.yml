@@ -70,7 +70,7 @@
              username: ${{ secrets.USER }}
              key: ${{ secrets.SSH_KEY }}
              source: "docker-compose.production.yml"
-             target: "имя_директории_на_сервере"
+             target: "kittygram"
 
          - name: Deploy on server
            uses: appleboy/ssh-action@master
