@@ -29,4 +29,4 @@ RUN pip install -r requirements.txt --no-cache-dir
 # При старте контейнера запустить сервер разработки.
 CMD ["python", "manage.py", "migrate"]
 # При старте контейнера запустить сервер разработки.
-CMD ["python", "manage.py", "runserver", "0:8080"]
+#CMD ["python", "manage.py", "runserver", "0:8080"]
