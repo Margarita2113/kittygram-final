@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  backend:
+    # Из какого Dockerfile собирать образ для этого контейнера:
+    build: ./backend/
+    env_file: .env
+    ports:
+      - 8080:8080
+    volumes:
+      - static:/app/static  # Монтируем статические файлы
+      - media:/app/media
+    # Какие контейнеры нужно запустить до старта этого контейнера:
+    depends_on:
+      - postgres
+  frontend:
+    # Из какого Dockerfile собирать образ для этого контейнера:
+    build: ./frontend/
+    env_file: .env
+    ports:
+      - 8000:8000
+    volumes:
+      - static:/app/src  # Монтируем статические файлы
+
+  gateway:
+    build: ./nginx/
+    volumes:
+      - static:/app/static  # Монтируем статические файлы
+      - media:/app/media
+    ports:
+      - "80:80"
+    depends_on:
+      - backend  # Обеспечиваем порядок запуска
+
+  # Имя и описание первого контейнера; имя выбирает разработчик.
+  # Это контейнер с базой данных:
+  postgres:
+    image: postgres:13.10  # Пример базы данных, можете заменить на свою
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: Kitty_db
+      POSTGRES_USER: rita
+      POSTGRES_PASSWORD: Zaq21412
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+volumes:
+  pg_data:
+  static:
+  media:
