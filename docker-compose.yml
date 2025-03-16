@@ -14,14 +14,14 @@ services:
   
   # Контейнер с бэкендом
   backend:
-    build: ./backend/          # Путь к Dockerfile для бэкенда
+    image: fuller2113/kittygram_backend:latest
     env_file: .env             # Файл с переменными окружения
     depends_on:
       - postgres                # Зависимость от контейнера postgres
 
   # Контейнер с фронтендом
   frontend:
-    build: ./frontend/         # Путь к Dockerfile для фронтенда
+    image: fuller2113/kittygram_frontend:latest
     env_file: .env             # Файл с переменными окружения
 
   # Контейнер с Nginx
