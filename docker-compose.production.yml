@@ -28,7 +28,7 @@ services:
 
   # Контейнер с Nginx
   nginx:
-    image: nginx:latest        # Последняя версия образа Nginx
+    image: fuller2113/kittygram_gateway:latest        # Последняя версия образа Nginx
     volumes:
       - static:/app/static                   # Статические файлы
       - media:/app/media                     # Медиа файлы
