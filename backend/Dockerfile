@@ -14,10 +14,6 @@ COPY cats cats/
 COPY kittygram_backend kittygram_backend/
 COPY manage.py .
 COPY requirements.txt .
-
-#RUN python -m venv env
-#RUN source env/bin/activate
-
 # Выполнить в текущей директории образа команду терминала
 # для установки зависимостей.
 RUN pip install -r requirements.txt --no-cache-dir
