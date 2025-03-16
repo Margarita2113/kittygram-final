@@ -80,6 +80,7 @@
              host: ${{ secrets.HOST }}
              username: ${{ secrets.USER }}
              key: ${{ secrets.SSH_KEY }}
+             passphrase: ${{ secrets.PASS_PHRASE }}
              script: |
                cd kittygram
                docker compose pull
