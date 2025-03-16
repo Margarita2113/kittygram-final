@@ -74,18 +74,18 @@
              source: "docker-compose.yml"
              target: "kittygram"
          - name: Copy create .env via ssh
-           run: |
-             echo "DB_NAME=${{ secrets.DB_NAME }}" > .env
-             echo "DB_USER=${{ secrets.DB_USER }}" >> .env
-             echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
-             echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
-             echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
+           uses: appleboy/ssh-action@master
            with:
              host: ${{ secrets.HOST }}
              username: ${{ secrets.USER }}
              key: ${{ secrets.SSH_KEY }}
              passphrase: ${{ secrets.PASS_PHRASE }}
-
+             script: |
+               echo "DB_NAME=${{ secrets.DB_NAME }}" > .env
+               echo "DB_USER=${{ secrets.DB_USER }}" >> .env
+               echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+               echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
+               echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
 
          - name: Deploy on server
            uses: appleboy/ssh-action@master
