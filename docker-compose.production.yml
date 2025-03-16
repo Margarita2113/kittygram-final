@@ -23,14 +23,16 @@ services:
   frontend:
     image: fuller2113/kittygram_frontend:latest
     env_file: .env             # Файл с переменными окружения
+    volumes:
+      - frontend_build:/app/build/
 
   # Контейнер с Nginx
   nginx:
     image: nginx:latest        # Последняя версия образа Nginx
     volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf  # Конфигурация Nginx
-      - ./backend/static:/app/static                   # Статические файлы
-      - ./backend/media:/app/media                     # Медиа файлы
+      - static:/app/static                   # Статические файлы
+      - media:/app/media                     # Медиа файлы
+      - frontend_build:/app/build/
     ports:
       - "80:80"                # Прокси для порта 80
     depends_on:
@@ -39,3 +41,6 @@ services:
 # Определение volume
 volumes:
   pg_data:
+  static:
+  media:
+  frontend_build:
