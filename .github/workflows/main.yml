@@ -82,7 +82,7 @@
              passphrase: ${{ secrets.PASS_PHRASE }}
              script: |
                cd kittygram
-               echo "POSTGRES_NAME="${{ secrets.POSTGRES_DB }} > .env
+               echo "POSTGRES_DB="${{ secrets.POSTGRES_DB }} > .env
                echo "POSTGRES_USER="${{ secrets.POSTGRES_USER }} >> .env
                echo "POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }} >> .env
                echo "POSTGRES_HOST="${{ secrets.DB_HOST }} >> .env
