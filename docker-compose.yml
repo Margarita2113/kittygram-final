@@ -3,11 +3,6 @@
 # Версия docker-compose:
 version: '3'
 
-# Перечень volume:
-volumes:
-  pg_data:
-  db_data:
-
 # Перечень контейнеров:
 services:
   # Контейнер с базой данных
