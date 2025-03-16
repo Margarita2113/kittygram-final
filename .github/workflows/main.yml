@@ -81,6 +81,7 @@
              key: ${{ secrets.SSH_KEY }}
              passphrase: ${{ secrets.PASS_PHRASE }}
              script: |
+               cd kittygram
                echo "DB_NAME="${{ secrets.DB_NAME }} > .env
                echo "DB_USER="${{ secrets.DB_USER }} >> .env
                echo "DB_PASSWORD="${{ secrets.DB_PASSWORD }} >> .env
