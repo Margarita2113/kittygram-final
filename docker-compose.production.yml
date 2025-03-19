@@ -16,6 +16,9 @@ services:
   backend:
     image: fuller2113/kittygram_backend:latest
     env_file: .env             # Файл с переменными окружения
+    volumes:
+      - static:/app/collected_static                   # Статические файлы
+      - media:/app/media                     # Медиа файлы
     depends_on:
       - postgres                # Зависимость от контейнера postgres
 

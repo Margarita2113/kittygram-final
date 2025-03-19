@@ -11,7 +11,7 @@
        runs-on: ubuntu-latest
        strategy:
          matrix:
-           python-version: ["3.9", "3.10"]
+           python-version: ["3.8", "3.9", "3.10"]
        steps:
          - name: Checkout code
            uses: actions/checkout@v3
@@ -87,6 +87,9 @@
                echo "POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }} >> .env
                echo "POSTGRES_HOST="${{ secrets.DB_HOST }} >> .env
                echo "POSTGRES_PORT="${{ secrets.DB_PORT }} >> .env
+               echo "DEBUG="${{ secrets.DEBUG }} >> .env
+               echo "ALLOWED_HOSTS="${{ secrets.ALLOWED_HOSTS }} >> .env
+               echo "SECRET_KEY="${{ secrets.SECRET_KEY }} >> .env
          - name: Deploy on server
            uses: appleboy/ssh-action@master
            with:
@@ -131,4 +134,4 @@
            with:
              to: ${{ secrets.TELEGRAM_CHAT_ID }}
              token: ${{ secrets.TELEGRAM_TOKEN }}
-             message: "Kitty gram successfully deployed!"
+             message: "Kitty gram successfully deployed! Actor: ${{ github.actor }} Message: ${{ github.event.commits[0].message }} Commit: https://github.com/${{ github.repository }}/commit/${{ github.sha }} "
